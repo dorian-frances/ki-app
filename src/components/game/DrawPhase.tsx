@@ -19,10 +19,9 @@ export default function DrawPhase({ channel: channelProp }: DrawPhaseProps = {})
   const [loading, setLoading] = useState(false)
 
   const hasVoted = state.myVote !== null
-  const questionerId = state.currentRound?.questioner_id
 
-  // Voteable players: everyone except the questioner
-  const voteablePlayers = state.players.filter(p => p.id !== questionerId)
+  // Everyone is voteable (questioner participates too)
+  const voteablePlayers = state.players
 
   const handleVote = async () => {
     if (!selectedPlayer || !state.currentDraw || !playerId || !channelProp) return

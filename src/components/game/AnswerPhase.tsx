@@ -18,7 +18,7 @@ export default function AnswerPhase({ channel: channelProp }: AnswerPhaseProps =
   const [answer, setAnswer] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const isQuestioner = state.currentRound?.questioner_id === playerId
+  const isAdmin = state.players.find(p => p.id === playerId)?.is_admin ?? false
   const hasAnswered = state.myAnswer !== null
 
   const handleSubmit = async () => {
@@ -34,33 +34,6 @@ export default function AnswerPhase({ channel: channelProp }: AnswerPhaseProps =
     }
   }
 
-  // Questioner waits and sees progress
-  if (isQuestioner) {
-    return (
-      <Card>
-        <div className="text-center space-y-4 py-4">
-          <div className="text-4xl animate-float">📝</div>
-          <h2 className="text-lg font-black">Les joueurs repondent...</h2>
-          <p className="text-2xl font-black text-ki-yellow">
-            "{state.currentRound?.question}"
-          </p>
-          <div className="flex items-center justify-center gap-2">
-            <div className="h-3 flex-1 max-w-[200px] bg-ki-card rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-ki-purple to-ki-pink rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${(state.answerCount / Math.max(state.totalExpectedAnswers, 1)) * 100}%` }}
-              />
-            </div>
-            <span className="text-sm font-bold text-white/50">
-              {state.answerCount}/{state.totalExpectedAnswers}
-            </span>
-          </div>
-        </div>
-      </Card>
-    )
-  }
-
   // Player already answered
   if (hasAnswered) {
     return (
@@ -69,6 +42,20 @@ export default function AnswerPhase({ channel: channelProp }: AnswerPhaseProps =
           <div className="text-4xl">✅</div>
           <h2 className="text-lg font-black">Reponse envoyee !</h2>
           <p className="text-white/50">En attente des autres joueurs...</p>
+          {isAdmin && (
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <div className="h-3 flex-1 max-w-[200px] bg-ki-card rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-ki-purple to-ki-pink rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(state.answerCount / Math.max(state.totalExpectedAnswers, 1)) * 100}%` }}
+                />
+              </div>
+              <span className="text-sm font-bold text-white/50">
+                {state.answerCount}/{state.totalExpectedAnswers}
+              </span>
+            </div>
+          )}
         </div>
       </Card>
     )

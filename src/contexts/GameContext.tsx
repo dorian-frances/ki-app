@@ -68,8 +68,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         drawResults: null,
         currentDraw: null,
         currentAnswerText: null,
-        totalExpectedAnswers: state.players.length - 1, // questioner doesn't answer
-        totalExpectedVotes: state.players.length - 1,   // questioner doesn't vote during draws
+        totalExpectedAnswers: state.players.length, // everyone answers, including questioner
+        totalExpectedVotes: state.players.length,   // everyone votes during draws
       }
 
     case 'SET_QUESTION':

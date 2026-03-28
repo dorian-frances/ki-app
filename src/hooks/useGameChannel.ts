@@ -23,6 +23,8 @@ export function useGameChannel(gameCode: string | undefined) {
 
     // Broadcast events
     ch.on('broadcast', { event: 'round_started' }, ({ payload }) => {
+      answerCountRef.current = 0
+      voteCountRef.current = 0
       dispatch({
         type: 'SET_ROUND',
         round: {

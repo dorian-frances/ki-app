@@ -30,15 +30,16 @@ export default function GamePage() {
   const { code } = useParams<{ code: string }>()
   const navigate = useNavigate()
   const { state, dispatch } = useGameState()
-  const { gameId, isAdmin } = usePlayer()
+  const { gameId, isAdmin, isLoading: playerLoading } = usePlayer()
   const { channel } = useGameChannel(code)
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
 
-  // Load initial game state
+  // Load initial game state — wait for player identity to be restored first
   useEffect(() => {
+    if (playerLoading) return
+
     if (!gameId) {
-      // Player hasn't joined yet, redirect to home with code
       navigate(`/?code=${code}`)
       return
     }
@@ -52,7 +53,7 @@ export default function GamePage() {
       }
       setLoading(false)
     })
-  }, [gameId, code, navigate, dispatch])
+  }, [playerLoading, gameId, code, navigate, dispatch])
 
   // Admin action: start game / next round
   const handleStartRound = useCallback(async () => {
@@ -127,7 +128,7 @@ export default function GamePage() {
     }
   }, [gameId, channel, state.game])
 
-  if (loading) {
+  if (loading || playerLoading) {
     return (
       <PageShell>
         <div className="flex items-center justify-center py-20">

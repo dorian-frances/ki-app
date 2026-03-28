@@ -60,7 +60,7 @@ export default function CreateGameForm() {
       <div>
         <label className="block text-sm font-bold text-ki-purple-light mb-1">Nombre de manches</label>
         <div className="flex items-center gap-3">
-          {[3, 5, 7, 10].map((n) => (
+          {[1, 3, 5, 7, 10].map((n) => (
             <button
               key={n}
               onClick={() => setRounds(n)}

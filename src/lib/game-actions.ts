@@ -163,17 +163,106 @@ export async function broadcastPhaseChange(channel: RealtimeChannel, phase: stri
   })
 }
 
-export async function fetchGameState(gameId: string) {
+import type { Game, Player, Round } from '../types/database'
+
+export interface RestoredGameState {
+  game: Game | null
+  players: Player[]
+  currentRound: Round | null
+  myAnswer: string | null
+  myVote: string | null
+  answerCount: number
+  voteCount: number
+  activeDraw: { id: string; draw_order: number; answer_text: string } | null
+}
+
+export async function fetchGameState(gameId: string, playerId?: string | null): Promise<RestoredGameState> {
   const [gameRes, playersRes, roundRes] = await Promise.all([
     supabase.from('games').select('*').eq('id', gameId).single(),
     supabase.from('players').select('*').eq('game_id', gameId).order('created_at'),
     supabase.from('rounds').select('*').eq('game_id', gameId).order('round_number', { ascending: false }).limit(1),
   ])
 
+  const currentRound = roundRes.data?.[0] || null
+  let myAnswer: string | null = null
+  let myVote: string | null = null
+  let answerCount = 0
+  let voteCount = 0
+  let activeDraw: RestoredGameState['activeDraw'] = null
+
+  if (currentRound && playerId) {
+    // Check if this player already answered this round
+    const [answerRes, answersCountRes] = await Promise.all([
+      supabase
+        .from('answers')
+        .select('answer_text')
+        .eq('round_id', currentRound.id)
+        .eq('player_id', playerId)
+        .maybeSingle(),
+      supabase
+        .from('answers')
+        .select('id', { count: 'exact', head: true })
+        .eq('round_id', currentRound.id),
+    ])
+
+    if (answerRes.data) {
+      myAnswer = answerRes.data.answer_text
+    }
+    answerCount = answersCountRes.count ?? 0
+
+    // Check if there's an active draw with its answer text
+    const { data: activeDrawData } = await supabase
+      .from('draws')
+      .select('id, draw_order, answer_id, status')
+      .eq('round_id', currentRound.id)
+      .eq('status', 'voting')
+      .limit(1)
+      .maybeSingle()
+
+    if (activeDrawData) {
+      // Get the answer text for this draw
+      const { data: drawAnswer } = await supabase
+        .from('answers')
+        .select('answer_text')
+        .eq('id', activeDrawData.answer_id)
+        .single()
+
+      activeDraw = {
+        id: activeDrawData.id,
+        draw_order: activeDrawData.draw_order,
+        answer_text: drawAnswer?.answer_text ?? '',
+      }
+
+      // Check if this player already voted on this draw
+      const [voteRes, voteCountRes] = await Promise.all([
+        supabase
+          .from('votes')
+          .select('voted_player_id')
+          .eq('draw_id', activeDrawData.id)
+          .eq('voter_id', playerId)
+          .maybeSingle(),
+        supabase
+          .from('votes')
+          .select('id', { count: 'exact', head: true })
+          .eq('draw_id', activeDrawData.id),
+      ])
+
+      if (voteRes.data) {
+        myVote = voteRes.data.voted_player_id
+      }
+      voteCount = voteCountRes.count ?? 0
+    }
+  }
+
   return {
     game: gameRes.data,
     players: playersRes.data || [],
-    currentRound: roundRes.data?.[0] || null,
+    currentRound,
+    myAnswer,
+    myVote,
+    answerCount,
+    voteCount,
+    activeDraw,
   }
 }
 

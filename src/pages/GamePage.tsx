@@ -30,7 +30,7 @@ export default function GamePage() {
   const { code } = useParams<{ code: string }>()
   const navigate = useNavigate()
   const { state, dispatch } = useGameState()
-  const { gameId, isAdmin, isLoading: playerLoading } = usePlayer()
+  const { gameId, playerId, isAdmin, isLoading: playerLoading } = usePlayer()
   const { channel } = useGameChannel(code)
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
@@ -44,16 +44,40 @@ export default function GamePage() {
       return
     }
 
-    fetchGameState(gameId).then(({ game, players, currentRound }) => {
+    fetchGameState(gameId, playerId).then(({ game, players, currentRound, myAnswer, myVote, answerCount, voteCount, activeDraw }) => {
       if (game) {
         dispatch({ type: 'SET_GAME', game, players })
         if (currentRound) {
           dispatch({ type: 'SET_ROUND', round: currentRound })
+
+          // Restore answer state
+          if (myAnswer) {
+            dispatch({ type: 'MY_ANSWER_SUBMITTED', answer: myAnswer })
+          }
+          if (answerCount > 0) {
+            dispatch({ type: 'ANSWER_SUBMITTED', count: answerCount })
+          }
+
+          // Restore active draw (voting phase)
+          if (activeDraw) {
+            dispatch({
+              type: 'DRAW_REVEALED',
+              drawId: activeDraw.id,
+              answerText: activeDraw.answer_text,
+              drawOrder: activeDraw.draw_order,
+            })
+            if (voteCount > 0) {
+              dispatch({ type: 'VOTE_SUBMITTED', count: voteCount })
+            }
+            if (myVote) {
+              dispatch({ type: 'MY_VOTE_SUBMITTED', votedPlayerId: myVote })
+            }
+          }
         }
       }
       setLoading(false)
     })
-  }, [playerLoading, gameId, code, navigate, dispatch])
+  }, [playerLoading, gameId, playerId, code, navigate, dispatch])
 
   // Admin action: start game / next round
   const handleStartRound = useCallback(async () => {

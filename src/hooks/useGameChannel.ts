@@ -11,17 +11,24 @@ export function useGameChannel(gameCode: string | undefined) {
   const answerCountRef = useRef(0)
   const voteCountRef = useRef(0)
 
+  // Keep refs in sync with state (important after restore from DB on refresh)
+  useEffect(() => {
+    answerCountRef.current = state.answerCount
+  }, [state.answerCount])
+
+  useEffect(() => {
+    voteCountRef.current = state.voteCount
+  }, [state.voteCount])
+
   const gameId = state.game?.id
 
   useEffect(() => {
-    // Wait until both gameCode and gameId are available
     if (!gameCode || !gameId) return
 
     const ch = supabase.channel(`game:${gameCode}`, {
       config: { broadcast: { self: true } },
     })
 
-    // Broadcast events
     ch.on('broadcast', { event: 'round_started' }, ({ payload }) => {
       answerCountRef.current = 0
       voteCountRef.current = 0
@@ -99,7 +106,6 @@ export function useGameChannel(gameCode: string | undefined) {
       dispatch({ type: 'GAME_OVER' })
     })
 
-    // Postgres Changes: new players joining (realtime)
     ch.on(
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'players', filter: `game_id=eq.${gameId}` },
@@ -116,8 +122,6 @@ export function useGameChannel(gameCode: string | undefined) {
     return () => {
       supabase.removeChannel(ch)
       channelRef.current = null
-      answerCountRef.current = 0
-      voteCountRef.current = 0
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameCode, gameId])

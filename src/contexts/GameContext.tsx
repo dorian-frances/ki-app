@@ -56,11 +56,18 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'PHASE_CHANGE':
       return { ...state, phase: action.data?.phase as GamePhase ?? action.phase }
 
-    case 'SET_ROUND':
+    case 'SET_ROUND': {
+      const roundStatusToPhase: Record<string, GamePhase> = {
+        question: 'question',
+        answering: 'answering',
+        drawing: 'draw_voting',
+        scoring: 'round_scores',
+        completed: 'round_scores',
+      }
       return {
         ...state,
         currentRound: action.round,
-        phase: action.round.status === 'question' ? 'question' : 'answering',
+        phase: roundStatusToPhase[action.round.status] ?? 'question',
         myAnswer: null,
         myVote: null,
         answerCount: 0,
@@ -68,9 +75,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         drawResults: null,
         currentDraw: null,
         currentAnswerText: null,
-        totalExpectedAnswers: state.players.length, // everyone answers, including questioner
-        totalExpectedVotes: state.players.length,   // everyone votes during draws
+        totalExpectedAnswers: state.players.length,
+        totalExpectedVotes: state.players.length,
       }
+    }
 
     case 'SET_QUESTION':
       return {

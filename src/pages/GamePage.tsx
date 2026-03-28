@@ -47,36 +47,56 @@ export default function GamePage() {
     }
 
     fetchGameState(gameId, playerId).then(({ game, players, currentRound, myAnswer, myVote, answerCount, voteCount, activeDraw }) => {
-      if (game) {
-        dispatch({ type: 'SET_GAME', game, players })
-        if (currentRound && game.status !== 'finished') {
-          dispatch({ type: 'SET_ROUND', round: currentRound })
+      if (!game) {
+        setLoading(false)
+        return
+      }
 
-          // Restore answer state
-          if (myAnswer) {
-            dispatch({ type: 'MY_ANSWER_SUBMITTED', answer: myAnswer })
-          }
-          if (answerCount > 0) {
-            dispatch({ type: 'ANSWER_SUBMITTED', count: answerCount })
-          }
+      // Determine the correct phase from DB state
+      let phase: import('../types/game').GamePhase = 'lobby'
+      if (game.status === 'finished') {
+        phase = 'game_over'
+      } else if (currentRound) {
+        const statusMap: Record<string, import('../types/game').GamePhase> = {
+          question: 'question',
+          answering: 'answering',
+          drawing: 'draw_voting',
+          scoring: 'round_scores',
+          completed: 'round_scores',
+        }
+        phase = statusMap[currentRound.status] ?? 'question'
 
-          // Restore active draw (voting phase)
-          if (activeDraw) {
-            dispatch({
-              type: 'DRAW_REVEALED',
-              drawId: activeDraw.id,
-              answerText: activeDraw.answer_text,
-              drawOrder: activeDraw.draw_order,
-            })
-            if (voteCount > 0) {
-              dispatch({ type: 'VOTE_SUBMITTED', count: voteCount })
-            }
-            if (myVote) {
-              dispatch({ type: 'MY_VOTE_SUBMITTED', votedPlayerId: myVote })
-            }
-          }
+        // If there's an active draw, we're in draw_voting
+        if (activeDraw) {
+          phase = 'draw_voting'
         }
       }
+
+      // Build the full restored state in one dispatch
+      dispatch({
+        type: 'RESTORE_STATE',
+        payload: {
+          game,
+          players,
+          phase,
+          currentRound: game.status !== 'finished' ? currentRound : null,
+          myAnswer,
+          myVote,
+          answerCount,
+          voteCount,
+          totalExpectedAnswers: players.length,
+          totalExpectedVotes: players.length,
+          currentDraw: activeDraw ? {
+            id: activeDraw.id,
+            round_id: currentRound?.id ?? '',
+            answer_id: '',
+            draw_order: activeDraw.draw_order,
+            status: 'voting' as const,
+          } : null,
+          currentAnswerText: activeDraw?.answer_text ?? null,
+        },
+      })
+
       setLoading(false)
     })
   }, [playerLoading, gameId, playerId, code, navigate, dispatch])

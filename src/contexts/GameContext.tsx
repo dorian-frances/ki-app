@@ -153,6 +153,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         restartGameId: action.newGameId,
       } as GameState
 
+    case 'RESTORE_STATE':
+      return {
+        ...initialState,
+        ...action.payload,
+      }
+
     case 'RESET':
       return initialState
 

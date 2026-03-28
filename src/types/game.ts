@@ -69,6 +69,7 @@ export type GameAction =
   | { type: 'SCORES_UPDATE'; scores: PlayerScore[] }
   | { type: 'GAME_OVER' }
   | { type: 'GAME_RESTARTED'; newCode: string; newGameId: string }
+  | { type: 'RESTORE_STATE'; payload: Partial<GameState> & { game: Game; players: Player[]; phase: GamePhase } }
   | { type: 'RESET' }
 
 export interface BroadcastPayload {

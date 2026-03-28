@@ -106,6 +106,10 @@ export function useGameChannel(gameCode: string | undefined) {
       dispatch({ type: 'GAME_OVER' })
     })
 
+    ch.on('broadcast', { event: 'game_restarted' }, ({ payload }) => {
+      dispatch({ type: 'GAME_RESTARTED', newCode: payload.code, newGameId: payload.game_id })
+    })
+
     ch.on(
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'players', filter: `game_id=eq.${gameId}` },

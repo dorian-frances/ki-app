@@ -23,14 +23,16 @@ import {
   scoreDraw,
   broadcastScoresUpdate,
   broadcastGameOver,
+  restartGame,
 } from '../lib/game-actions'
+import { supabase } from '../config/supabase'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 export default function GamePage() {
   const { code } = useParams<{ code: string }>()
   const navigate = useNavigate()
   const { state, dispatch } = useGameState()
-  const { gameId, playerId, isAdmin, isLoading: playerLoading } = usePlayer()
+  const { gameId, playerId, isAdmin, isLoading: playerLoading, setPlayerInfo } = usePlayer()
   const { channel } = useGameChannel(code)
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
@@ -47,7 +49,7 @@ export default function GamePage() {
     fetchGameState(gameId, playerId).then(({ game, players, currentRound, myAnswer, myVote, answerCount, voteCount, activeDraw }) => {
       if (game) {
         dispatch({ type: 'SET_GAME', game, players })
-        if (currentRound) {
+        if (currentRound && game.status !== 'finished') {
           dispatch({ type: 'SET_ROUND', round: currentRound })
 
           // Restore answer state
@@ -152,6 +154,58 @@ export default function GamePage() {
     }
   }, [gameId, channel, state.game])
 
+  // Admin action: restart game
+  const handleRestart = useCallback(async () => {
+    if (!gameId || !channel || !state.game) return
+    setActionLoading(true)
+    try {
+      const result = await restartGame(gameId, state.game.total_rounds, channel)
+      const userId = (await supabase.auth.getUser()).data.user?.id ?? ''
+      const { data: myPlayer } = await supabase
+        .from('players')
+        .select('id, is_admin')
+        .eq('game_id', result.game_id)
+        .eq('user_id', userId)
+        .single()
+
+      if (myPlayer) {
+        setPlayerInfo({ playerId: myPlayer.id, gameId: result.game_id, isAdmin: myPlayer.is_admin })
+      }
+      dispatch({ type: 'RESET' })
+      navigate(`/game/${result.code}`)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setActionLoading(false)
+    }
+  }, [gameId, channel, state.game, navigate, dispatch])
+
+  // Redirect all players when game is restarted by admin
+  useEffect(() => {
+    if (state.restartCode && state.restartGameId) {
+      const newCode = state.restartCode
+      const newGameId = state.restartGameId
+      // Find my new player in the new game
+      ;(async () => {
+        const userId = (await supabase.auth.getUser()).data.user?.id
+        if (!userId) return
+
+        const { data: myPlayer } = await supabase
+          .from('players')
+          .select('id, is_admin')
+          .eq('game_id', newGameId)
+          .eq('user_id', userId)
+          .single()
+
+        if (myPlayer) {
+          setPlayerInfo({ playerId: myPlayer.id, gameId: newGameId, isAdmin: myPlayer.is_admin })
+        }
+        dispatch({ type: 'RESET' })
+        navigate(`/game/${newCode}`)
+      })()
+    }
+  }, [state.restartCode, state.restartGameId, navigate, dispatch])
+
   if (loading || playerLoading) {
     return (
       <PageShell>
@@ -222,7 +276,16 @@ export default function GamePage() {
       )}
 
       {/* Game over */}
-      {state.phase === 'game_over' && <FinalLeaderboard />}
+      {state.phase === 'game_over' && (
+        <div className="space-y-4">
+          <FinalLeaderboard />
+          {isAdmin && (
+            <Button onClick={handleRestart} disabled={actionLoading} className="w-full" size="lg">
+              {actionLoading ? 'Creation...' : 'Relancer une partie'}
+            </Button>
+          )}
+        </div>
+      )}
     </PageShell>
   )
 }

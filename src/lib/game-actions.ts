@@ -163,6 +163,23 @@ export async function broadcastPhaseChange(channel: RealtimeChannel, phase: stri
   })
 }
 
+export async function restartGame(gameId: string, totalRounds: number, channel: RealtimeChannel) {
+  const { data, error } = await supabase.rpc('restart_game', {
+    p_game_id: gameId,
+    p_total_rounds: totalRounds,
+  })
+  if (error) throw error
+  const result = data as unknown as { game_id: string; code: string }
+
+  channel.send({
+    type: 'broadcast',
+    event: 'game_restarted',
+    payload: result,
+  })
+
+  return result
+}
+
 import type { Game, Player, Round } from '../types/database'
 
 export interface RestoredGameState {

@@ -49,6 +49,8 @@ export interface GameState {
   voteCount: number
   totalExpectedAnswers: number
   totalExpectedVotes: number
+  restartCode?: string
+  restartGameId?: string
 }
 
 export type GameAction =
@@ -66,6 +68,7 @@ export type GameAction =
   | { type: 'DRAW_SCORED'; results: DrawResult }
   | { type: 'SCORES_UPDATE'; scores: PlayerScore[] }
   | { type: 'GAME_OVER' }
+  | { type: 'GAME_RESTARTED'; newCode: string; newGameId: string }
   | { type: 'RESET' }
 
 export interface BroadcastPayload {

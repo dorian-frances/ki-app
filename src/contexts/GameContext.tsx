@@ -145,6 +145,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         game: state.game ? { ...state.game, status: 'finished' } : null,
       }
 
+    case 'GAME_RESTARTED':
+      return {
+        ...initialState,
+        // Store the new game info so GamePage can redirect
+        restartCode: action.newCode,
+        restartGameId: action.newGameId,
+      } as GameState
+
     case 'RESET':
       return initialState
 

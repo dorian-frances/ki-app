@@ -216,16 +216,13 @@ export async function fetchGameState(gameId: string, playerId?: string | null): 
         .eq('round_id', currentRound.id)
         .eq('player_id', playerId)
         .maybeSingle(),
-      supabase
-        .from('answers')
-        .select('id', { count: 'exact', head: true })
-        .eq('round_id', currentRound.id),
+      supabase.rpc('count_round_answers', { p_round_id: currentRound.id }),
     ])
 
     if (answerRes.data) {
       myAnswer = answerRes.data.answer_text
     }
-    answerCount = answersCountRes.count ?? 0
+    answerCount = Number(answersCountRes.data) || 0
 
     // Check if there's an active draw with its answer text
     const { data: activeDrawData } = await supabase
@@ -258,16 +255,13 @@ export async function fetchGameState(gameId: string, playerId?: string | null): 
           .eq('draw_id', activeDrawData.id)
           .eq('voter_id', playerId)
           .maybeSingle(),
-        supabase
-          .from('votes')
-          .select('id', { count: 'exact', head: true })
-          .eq('draw_id', activeDrawData.id),
+        supabase.rpc('count_draw_votes', { p_draw_id: activeDrawData.id }),
       ])
 
       if (voteRes.data) {
         myVote = voteRes.data.voted_player_id
       }
-      voteCount = voteCountRes.count ?? 0
+      voteCount = Number(voteCountRes.data) || 0
     }
   }
 

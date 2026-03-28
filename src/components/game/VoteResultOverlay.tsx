@@ -18,7 +18,7 @@ export default function VoteResultOverlay() {
         className="space-y-5 text-center"
       >
         {/* Answer recall */}
-        <p className="text-lg font-bold text-ki-yellow">"{drawResults.answerText}"</p>
+        <p className="text-lg font-bold text-ki-sand">"{drawResults.answerText}"</p>
 
         {/* All votes revealed (including impostor's) */}
         <motion.div

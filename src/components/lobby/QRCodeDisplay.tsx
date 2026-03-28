@@ -18,11 +18,11 @@ export default function QRCodeDisplay({ code }: QRCodeDisplayProps) {
       </div>
       <div className="text-center">
         <p className="text-sm text-white/50 mb-1">Code de la partie</p>
-        <p className="text-4xl font-black tracking-[0.3em] text-ki-yellow">{code}</p>
+        <p className="text-4xl font-black tracking-[0.3em] text-ki-sand">{code}</p>
       </div>
       <button
         onClick={handleCopy}
-        className="text-sm text-ki-purple-light hover:text-white transition-colors font-bold"
+        className="text-sm text-ki-terra-light hover:text-white transition-colors font-bold"
       >
         Copier le lien d'invitation
       </button>

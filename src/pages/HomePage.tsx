@@ -17,7 +17,7 @@ export default function HomePage() {
     return (
       <PageShell>
         <div className="flex items-center justify-center py-20">
-          <div className="animate-pulse text-xl font-bold text-ki-purple-light">Chargement...</div>
+          <div className="animate-pulse text-xl font-bold text-ki-terra-light">Chargement...</div>
         </div>
       </PageShell>
     )
@@ -29,7 +29,7 @@ export default function HomePage() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-6xl font-black bg-gradient-to-r from-ki-purple-light via-ki-pink to-ki-yellow bg-clip-text text-transparent"
+          className="text-6xl font-black bg-gradient-to-r from-ki-terra-light via-ki-terra to-ki-sand bg-clip-text text-transparent"
         >
           KI
         </motion.h1>
@@ -49,7 +49,7 @@ export default function HomePage() {
           onClick={() => setMode('create')}
           className={`flex-1 py-3 rounded-xl font-extrabold transition-all ${
             mode === 'create'
-              ? 'bg-ki-purple text-white'
+              ? 'bg-ki-terra text-white'
               : 'bg-ki-card text-white/40 hover:text-white/60'
           }`}
         >
@@ -59,7 +59,7 @@ export default function HomePage() {
           onClick={() => setMode('join')}
           className={`flex-1 py-3 rounded-xl font-extrabold transition-all ${
             mode === 'join'
-              ? 'bg-ki-purple text-white'
+              ? 'bg-ki-terra text-white'
               : 'bg-ki-card text-white/40 hover:text-white/60'
           }`}
         >

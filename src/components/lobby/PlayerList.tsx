@@ -10,7 +10,7 @@ interface PlayerListProps {
 export default function PlayerList({ players, adminId }: PlayerListProps) {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-bold text-ki-purple-light uppercase tracking-wider">
+      <h3 className="text-sm font-bold text-ki-terra-light uppercase tracking-wider">
         Joueurs ({players.length})
       </h3>
       <AnimatePresence>
@@ -26,7 +26,7 @@ export default function PlayerList({ players, adminId }: PlayerListProps) {
             <Avatar emoji={player.avatar} size="sm" />
             <span className="font-extrabold flex-1">{player.user_name}</span>
             {player.id === adminId && (
-              <span className="text-xs font-bold bg-ki-yellow/20 text-ki-yellow px-2 py-0.5 rounded-lg">
+              <span className="text-xs font-bold bg-ki-sand/20 text-ki-sand px-2 py-0.5 rounded-lg">
                 Admin
               </span>
             )}

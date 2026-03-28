@@ -62,7 +62,7 @@ export default function JoinGameForm({ initialCode }: { initialCode?: string }) 
       />
 
       <div>
-        <label className="block text-sm font-bold text-ki-purple-light mb-2">Ton avatar</label>
+        <label className="block text-sm font-bold text-ki-terra-light mb-2">Ton avatar</label>
         <div className="flex flex-wrap gap-2">
           {AVATARS.map((a) => (
             <Avatar key={a} emoji={a} size="sm" selected={avatar === a} onClick={() => setAvatar(a)} />
@@ -70,7 +70,7 @@ export default function JoinGameForm({ initialCode }: { initialCode?: string }) 
         </div>
       </div>
 
-      {error && <p className="text-ki-pink text-sm font-bold">{error}</p>}
+      {error && <p className="text-ki-terra text-sm font-bold">{error}</p>}
 
       <Button onClick={handleJoin} disabled={loading} className="w-full" size="lg">
         {loading ? 'Connexion...' : 'Rejoindre'}

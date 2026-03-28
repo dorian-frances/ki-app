@@ -73,7 +73,7 @@ export default function QuestionPhase({ channel: channelProp }: QuestionPhasePro
           {[0, 1, 2].map(i => (
             <motion.div
               key={i}
-              className="w-3 h-3 rounded-full bg-ki-purple"
+              className="w-3 h-3 rounded-full bg-ki-terra"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }}
             />

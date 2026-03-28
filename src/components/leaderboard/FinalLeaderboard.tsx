@@ -28,7 +28,7 @@ export default function FinalLeaderboard() {
               className="absolute w-2 h-2 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
-                backgroundColor: ['#7c3aed', '#ec4899', '#facc15', '#22c55e', '#3b82f6', '#06b6d4'][i % 6],
+                backgroundColor: ['#f4f1de', '#e07a5f', '#3d405b', '#81b29a', '#f2cc8f', '#e9a08b'][i % 6],
               }}
               initial={{ y: -20, opacity: 1, scale: 1 }}
               animate={{
@@ -51,7 +51,7 @@ export default function FinalLeaderboard() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 10 }}
-        className="text-3xl font-black text-center bg-gradient-to-r from-ki-yellow via-ki-orange to-ki-pink bg-clip-text text-transparent"
+        className="text-3xl font-black text-center bg-gradient-to-r from-ki-sand via-ki-terra to-ki-terra-light bg-clip-text text-transparent"
       >
         Fin de partie !
       </motion.h2>
@@ -68,8 +68,8 @@ export default function FinalLeaderboard() {
           >
             <Avatar emoji={podium[1].avatar} size="lg" />
             <span className="font-extrabold text-sm mt-1 truncate max-w-[80px]">{podium[1].user_name}</span>
-            <span className="text-ki-purple-light font-black">{podium[1].score} pts</span>
-            <div className="w-20 h-24 bg-gradient-to-t from-ki-purple/40 to-ki-purple/20 rounded-t-lg mt-1 flex items-center justify-center">
+            <span className="text-ki-terra-light font-black">{podium[1].score} pts</span>
+            <div className="w-20 h-24 bg-gradient-to-t from-ki-terra/40 to-ki-terra/20 rounded-t-lg mt-1 flex items-center justify-center">
               <span className="text-3xl">🥈</span>
             </div>
           </motion.div>
@@ -90,8 +90,8 @@ export default function FinalLeaderboard() {
               <Avatar emoji={podium[0].avatar} size="lg" />
             </motion.div>
             <span className="font-extrabold text-sm mt-1 truncate max-w-[80px]">{podium[0].user_name}</span>
-            <span className="text-ki-yellow font-black">{podium[0].score} pts</span>
-            <div className="w-20 h-32 bg-gradient-to-t from-ki-yellow/40 to-ki-yellow/20 rounded-t-lg mt-1 flex items-center justify-center">
+            <span className="text-ki-sand font-black">{podium[0].score} pts</span>
+            <div className="w-20 h-32 bg-gradient-to-t from-ki-sand/40 to-ki-sand/20 rounded-t-lg mt-1 flex items-center justify-center">
               <span className="text-3xl">🥇</span>
             </div>
           </motion.div>
@@ -107,8 +107,8 @@ export default function FinalLeaderboard() {
           >
             <Avatar emoji={podium[2].avatar} size="lg" />
             <span className="font-extrabold text-sm mt-1 truncate max-w-[80px]">{podium[2].user_name}</span>
-            <span className="text-ki-orange font-black">{podium[2].score} pts</span>
-            <div className="w-20 h-16 bg-gradient-to-t from-ki-orange/40 to-ki-orange/20 rounded-t-lg mt-1 flex items-center justify-center">
+            <span className="text-ki-terra font-black">{podium[2].score} pts</span>
+            <div className="w-20 h-16 bg-gradient-to-t from-ki-terra/40 to-ki-terra/20 rounded-t-lg mt-1 flex items-center justify-center">
               <span className="text-3xl">🥉</span>
             </div>
           </motion.div>

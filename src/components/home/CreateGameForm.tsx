@@ -49,7 +49,7 @@ export default function CreateGameForm() {
       />
 
       <div>
-        <label className="block text-sm font-bold text-ki-purple-light mb-2">Ton avatar</label>
+        <label className="block text-sm font-bold text-ki-terra-light mb-2">Ton avatar</label>
         <div className="flex flex-wrap gap-2">
           {AVATARS.map((a) => (
             <Avatar key={a} emoji={a} size="sm" selected={avatar === a} onClick={() => setAvatar(a)} />
@@ -58,7 +58,7 @@ export default function CreateGameForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-ki-purple-light mb-1">Nombre de manches</label>
+        <label className="block text-sm font-bold text-ki-terra-light mb-1">Nombre de manches</label>
         <div className="flex items-center gap-3">
           {[1, 3, 5, 7, 10].map((n) => (
             <button
@@ -66,7 +66,7 @@ export default function CreateGameForm() {
               onClick={() => setRounds(n)}
               className={`px-4 py-2 rounded-xl font-extrabold transition-all ${
                 rounds === n
-                  ? 'bg-ki-purple text-white'
+                  ? 'bg-ki-terra text-white'
                   : 'bg-ki-card text-white/60 hover:text-white'
               }`}
             >
@@ -76,7 +76,7 @@ export default function CreateGameForm() {
         </div>
       </div>
 
-      {error && <p className="text-ki-pink text-sm font-bold">{error}</p>}
+      {error && <p className="text-ki-terra text-sm font-bold">{error}</p>}
 
       <Button onClick={handleCreate} disabled={loading} className="w-full" size="lg">
         {loading ? 'Creation...' : 'Creer la partie'}

@@ -18,17 +18,17 @@ const phaseLabels: Record<string, string> = {
 export default function Header({ code, round, totalRounds, phase }: HeaderProps) {
   return (
     <div className="flex items-center justify-between mb-6">
-      <h1 className="text-3xl font-black bg-gradient-to-r from-ki-purple-light to-ki-pink bg-clip-text text-transparent">
+      <h1 className="text-3xl font-black bg-gradient-to-r from-ki-terra-light to-ki-terra bg-clip-text text-transparent">
         KI
       </h1>
       <div className="flex items-center gap-3">
         {round != null && totalRounds != null && (
-          <span className="text-sm font-bold text-ki-purple-light">
+          <span className="text-sm font-bold text-ki-terra-light">
             {round}/{totalRounds}
           </span>
         )}
         {phase && phase !== 'lobby' && (
-          <span className="text-xs font-bold bg-ki-purple/30 text-ki-purple-light px-2 py-1 rounded-lg">
+          <span className="text-xs font-bold bg-ki-terra/30 text-ki-terra-light px-2 py-1 rounded-lg">
             {phaseLabels[phase] || phase}
           </span>
         )}

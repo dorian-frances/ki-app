@@ -46,7 +46,7 @@ export default function AnswerPhase({ channel: channelProp }: AnswerPhaseProps =
             <div className="flex items-center justify-center gap-2 mt-2">
               <div className="h-3 flex-1 max-w-[200px] bg-ki-card rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-ki-purple to-ki-pink rounded-full"
+                  className="h-full bg-gradient-to-r from-ki-terra to-ki-terra rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(state.answerCount / Math.max(state.totalExpectedAnswers, 1)) * 100}%` }}
                 />
@@ -69,7 +69,7 @@ export default function AnswerPhase({ channel: channelProp }: AnswerPhaseProps =
         animate={{ opacity: 1, y: 0 }}
         className="space-y-4"
       >
-        <p className="text-2xl font-black text-center text-ki-yellow">
+        <p className="text-2xl font-black text-center text-ki-sand">
           "{state.currentRound?.question}"
         </p>
         <Input

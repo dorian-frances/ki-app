@@ -18,8 +18,8 @@ export default function Avatar({ emoji, size = 'md', selected, onClick }: Avatar
     <div
       onClick={onClick}
       className={`${sizeClasses[size]} rounded-full flex items-center justify-center bg-ki-card border-2 transition-all ${
-        selected ? 'border-ki-pink scale-110 shadow-lg shadow-ki-pink/30' : 'border-ki-purple-light/20'
-      } ${onClick ? 'cursor-pointer hover:border-ki-purple-light/50' : ''}`}
+        selected ? 'border-ki-terra scale-110 shadow-lg shadow-ki-terra/30' : 'border-ki-terra-light/20'
+      } ${onClick ? 'cursor-pointer hover:border-ki-terra-light/50' : ''}`}
     >
       {emoji}
     </div>

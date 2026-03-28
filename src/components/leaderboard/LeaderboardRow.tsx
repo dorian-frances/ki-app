@@ -32,8 +32,8 @@ export default function LeaderboardRow({ score, index, showAnimation }: Leaderbo
       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
         moved && showAnimation
           ? movedUp
-            ? 'bg-ki-green/10 border border-ki-green/30'
-            : 'bg-ki-pink/10 border border-ki-pink/30'
+            ? 'bg-ki-sage/10 border border-ki-sage/30'
+            : 'bg-ki-terra/10 border border-ki-terra/30'
           : 'bg-ki-card/60'
       }`}
     >
@@ -55,7 +55,7 @@ export default function LeaderboardRow({ score, index, showAnimation }: Leaderbo
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`text-sm font-black ${pointsDiff > 0 ? 'text-ki-green' : 'text-ki-pink'}`}
+          className={`text-sm font-black ${pointsDiff > 0 ? 'text-ki-sage' : 'text-ki-terra'}`}
         >
           {pointsDiff > 0 ? '+' : ''}{pointsDiff}
         </motion.span>

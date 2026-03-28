@@ -52,9 +52,9 @@ export default function DrawPhase({ channel: channelProp }: DrawPhaseProps = {})
             initial={{ opacity: 0, rotateX: -90 }}
             animate={{ opacity: 1, rotateX: 0 }}
             transition={{ duration: 0.6, type: 'spring' }}
-            className="bg-gradient-to-br from-ki-purple/30 to-ki-pink/20 border border-ki-purple-light/20 rounded-2xl p-6"
+            className="bg-gradient-to-br from-ki-terra/30 to-ki-terra/20 border border-ki-terra-light/20 rounded-2xl p-6"
           >
-            <p className="text-xl font-black text-ki-yellow">
+            <p className="text-xl font-black text-ki-sand">
               "{state.currentAnswerText}"
             </p>
           </motion.div>
@@ -81,8 +81,8 @@ export default function DrawPhase({ channel: channelProp }: DrawPhaseProps = {})
                   onClick={() => setSelectedPlayer(player.id)}
                   className={`flex items-center gap-2 p-3 rounded-xl transition-all ${
                     selectedPlayer === player.id
-                      ? 'bg-ki-purple border-2 border-ki-pink shadow-lg shadow-ki-pink/20'
-                      : 'bg-ki-card/60 border-2 border-transparent hover:border-ki-purple-light/30'
+                      ? 'bg-ki-terra border-2 border-ki-terra shadow-lg shadow-ki-terra/20'
+                      : 'bg-ki-card/60 border-2 border-transparent hover:border-ki-terra-light/30'
                   }`}
                 >
                   <Avatar emoji={player.avatar} size="sm" />

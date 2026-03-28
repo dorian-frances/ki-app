@@ -235,7 +235,7 @@ export default function GamePage() {
     return (
       <PageShell>
         <div className="flex items-center justify-center py-20">
-          <div className="animate-pulse text-xl font-bold text-ki-purple-light">Chargement...</div>
+          <div className="animate-pulse text-xl font-bold text-ki-terra-light">Chargement...</div>
         </div>
       </PageShell>
     )

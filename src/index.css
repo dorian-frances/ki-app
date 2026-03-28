@@ -3,19 +3,21 @@
 @theme {
   --font-display: "Nunito", sans-serif;
 
-  --color-ki-purple: #7c3aed;
-  --color-ki-purple-light: #a78bfa;
-  --color-ki-pink: #ec4899;
-  --color-ki-pink-light: #f9a8d4;
-  --color-ki-yellow: #facc15;
-  --color-ki-orange: #f97316;
-  --color-ki-green: #22c55e;
-  --color-ki-blue: #3b82f6;
-  --color-ki-cyan: #06b6d4;
-  --color-ki-dark: #1e1b4b;
-  --color-ki-darker: #0f0a2e;
-  --color-ki-card: #2e2860;
-  --color-ki-card-hover: #3b3575;
+  --color-ki-cream: #f4f1de;
+  --color-ki-terra: #e07a5f;
+  --color-ki-terra-light: #e9a08b;
+  --color-ki-slate: #3d405b;
+  --color-ki-slate-light: #555873;
+  --color-ki-sage: #81b29a;
+  --color-ki-sage-light: #a3c9b6;
+  --color-ki-sand: #f2cc8f;
+  --color-ki-sand-light: #f5dbb3;
+  --color-ki-dark: #2c2e43;
+  --color-ki-darker: #1f2133;
+  --color-ki-card: #4a4d6a;
+  --color-ki-card-hover: #5a5d7a;
+  --color-ki-error: #e07a5f;
+  --color-ki-success: #81b29a;
 }
 
 html, body, #root {
@@ -25,8 +27,8 @@ html, body, #root {
 
 body {
   font-family: "Nunito", sans-serif;
-  background: linear-gradient(135deg, var(--color-ki-darker) 0%, var(--color-ki-dark) 50%, #2d1b69 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-ki-darker) 0%, var(--color-ki-dark) 50%, var(--color-ki-slate) 100%);
+  color: var(--color-ki-cream);
   overflow-x: hidden;
 }
 
@@ -36,8 +38,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(224, 122, 95, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(224, 122, 95, 0.6); }
 }
 
 @keyframes slide-up {

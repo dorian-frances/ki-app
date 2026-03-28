@@ -12,9 +12,9 @@ interface ButtonProps {
 }
 
 const variants = {
-  primary: 'bg-gradient-to-r from-ki-purple to-ki-pink text-white shadow-lg shadow-ki-purple/30',
-  secondary: 'bg-ki-card text-white border border-ki-purple-light/30',
-  ghost: 'bg-transparent text-ki-purple-light',
+  primary: 'bg-gradient-to-r from-ki-terra to-ki-sand text-white shadow-lg shadow-ki-terra/30',
+  secondary: 'bg-ki-card text-white border border-ki-terra-light/30',
+  ghost: 'bg-transparent text-ki-terra-light',
 }
 
 const sizes = {

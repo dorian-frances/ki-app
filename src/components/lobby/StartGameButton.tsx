@@ -11,7 +11,7 @@ export default function StartGameButton({ isAdmin, playerCount, loading, onStart
   if (!isAdmin) {
     return (
       <div className="text-center py-4">
-        <div className="animate-pulse text-ki-purple-light font-bold">
+        <div className="animate-pulse text-ki-terra-light font-bold">
           En attente du lancement par l'admin...
         </div>
       </div>

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Nunito", sans-serif;
+
+  --color-ki-purple: #7c3aed;
+  --color-ki-purple-light: #a78bfa;
+  --color-ki-pink: #ec4899;
+  --color-ki-pink-light: #f9a8d4;
+  --color-ki-yellow: #facc15;
+  --color-ki-orange: #f97316;
+  --color-ki-green: #22c55e;
+  --color-ki-blue: #3b82f6;
+  --color-ki-cyan: #06b6d4;
+  --color-ki-dark: #1e1b4b;
+  --color-ki-darker: #0f0a2e;
+  --color-ki-card: #2e2860;
+  --color-ki-card-hover: #3b3575;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background: linear-gradient(135deg, var(--color-ki-darker) 0%, var(--color-ki-dark) 50%, #2d1b69 100%);
+  color: white;
+  overflow-x: hidden;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.5s ease-out forwards; }

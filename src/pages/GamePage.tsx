@@ -66,9 +66,14 @@ export default function GamePage() {
         }
         phase = statusMap[currentRound.status] ?? 'question'
 
-        // If there's an active draw, we're in draw_voting
-        if (activeDraw) {
-          phase = 'draw_voting'
+        // Refine phase for drawing status based on draw state
+        if (currentRound.status === 'drawing') {
+          if (activeDraw) {
+            phase = 'draw_voting'
+          } else {
+            // All draws completed, we're at round scores
+            phase = 'round_scores'
+          }
         }
       }
 

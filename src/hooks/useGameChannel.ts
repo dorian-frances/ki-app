@@ -76,7 +76,7 @@ export function useGameChannel(gameCode: string | undefined) {
         results: {
           drawId: payload.drawId,
           authorId: payload.author_id,
-          answerText: payload.answer_text ?? '',
+          answerText: '', // filled by reducer from state.currentAnswerText
           correctGuesses: payload.correct_guesses,
           wrongGuesses: payload.wrong_guesses,
           impostorPoints: payload.impostor_points,

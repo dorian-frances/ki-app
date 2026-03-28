@@ -120,7 +120,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'DRAW_SCORED':
       return {
         ...state,
-        drawResults: action.results,
+        drawResults: {
+          ...action.results,
+          answerText: action.results.answerText || state.currentAnswerText || '',
+        },
         phase: 'draw_results',
       }
 
